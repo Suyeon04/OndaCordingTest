@@ -1,17 +1,31 @@
-src="https://code.jquery.com/jquery-3.6.0.js"
-integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-crossorigin="anonymous"
+const topic = document.querySelector("#topic");
+
+import axios from 'axios';
 
 function search(){
-    $.ajax({
-        method: "GET",
-        key : "7651897dc91d7f83f045b88ea6040767",
-        url: `http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=${key}&apiCode= ProductSearch&keyword =[keyword]`,
-        data: { zipcode: 97201} 
+    const req = {
+        topic : topic.value
+    }
+    fetch("/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
     })
-        .done(function( result ) {
-          $( "#weather-temp" ).html( "<strong>" + result + "</strong> degrees" );
-        });
-}
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.success) {
+        alert(res.body);
+      } else {
+        alert(res.msg);
+      }
+    })
+    .catch((err) => {
+      console.error("지원신청 중 에러 발생");
+    });
+};
+
+
 
   
